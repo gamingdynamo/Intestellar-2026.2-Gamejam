@@ -14,122 +14,84 @@ public class CustomCharachterController : MonoBehaviour
     [SerializeField] private float groundRayDistance = 1.1f;
     [SerializeField] private LayerMask groundLayer;
 
-    private Vector3 direction = Vector3.forward;
     private Vector3 horizontalInputAcceleration = Vector3.zero;
     private Vector3 verticalInputAcceleration = Vector3.zero;
+    private Quaternion cameraDirection = Quaternion.identity;
+
     private Rigidbody rb = null;
-    private Quaternion cameraDirection;
 
-    // Later for animtions
-    private bool movedLastFrame = false;
-    private bool jumpedLastFrame = false;
-
-    void addHorizontalInput()
+    void ProcessInput()
     {
-        if ( Keyboard.current.wKey.isPressed )
-        {
-            this.horizontalInputAcceleration += this.direction;
-        }
-
-        if ( Keyboard.current.sKey.isPressed)
-        {
-            this.horizontalInputAcceleration += (-this.direction);
-        }
-
-        if ( Keyboard.current.dKey.isPressed)
-        {
-            this.horizontalInputAcceleration += (-1) * (Vector3.Cross(this.direction, Vector3.up));
-        }
-
-        if ( Keyboard.current.aKey.isPressed)
-        {
-            this.horizontalInputAcceleration += Vector3.Cross(this.direction, Vector3.up);
-        }
-
-        if (this.horizontalInputAcceleration.sqrMagnitude >= 0.1f)
-        {
-            this.movedLastFrame = true;
-
-            this.direction = this.cameraDirection * Vector3.forward;
-
-            // Calculate target rotation while neutralizing pitch (X) and roll (Z)
-            Vector3 targetEuler = this.cameraDirection.eulerAngles;
-            Quaternion targetRotation = Quaternion.Euler(0f, targetEuler.y, 0f);
-
-            // Smoothly interpolate towards the target rotation
-            this.transform.rotation = Quaternion.Slerp(
-                this.transform.rotation, 
-                targetRotation, 
-                rotationSpeed * Time.deltaTime
-            );
-        }
-        else
-        {
-            this.movedLastFrame = false;
-        }
-
-        // Normalize inputAcceleratin and make flat
-        this.horizontalInputAcceleration.y = 0.0f;
-        this.horizontalInputAcceleration = this.horizontalInputAcceleration.normalized * this.maxInputAcceleration;
-    }
-
-    void addVerticalInput()
-    {
-        // Vertical input
-        if ( Keyboard.current.spaceKey.wasPressedThisFrame && this.isOnground() )
-        {
-            this.verticalInputAcceleration += Vector3.up * jumpForce;
-            this.jumpedLastFrame = true;
-        }
-        else
-        {
-            this.jumpedLastFrame = false;
-        }
-    }
-
-    void proccesInput()
-    {
-
-        // Get layout indepndent key input
         if (Keyboard.current == null) return;
 
-        // Reset imput vectors
-        this.horizontalInputAcceleration = Vector3.zero;
-        this.verticalInputAcceleration = Vector3.zero;
+        Vector3 camEuler = cameraDirection.eulerAngles;
+        Quaternion cameraYaw = Quaternion.Euler(0f, camEuler.y, 0f);
 
-        // Now add input vectors
-        this.addHorizontalInput();
-        this.addVerticalInput();
+        Vector3 camForward = cameraYaw * Vector3.forward;
+        Vector3 camRight = cameraYaw * Vector3.right;
+
+        Vector3 inputDir = Vector3.zero;
+
+        if (Keyboard.current.wKey.isPressed) inputDir += camForward;
+        if (Keyboard.current.sKey.isPressed) inputDir -= camForward;
+        if (Keyboard.current.dKey.isPressed) inputDir += camRight;
+        if (Keyboard.current.aKey.isPressed) inputDir -= camRight;
+
+        if (inputDir.sqrMagnitude != 0.0f)
+        {
+            inputDir.Normalize();
+
+            Quaternion targetRotation = Quaternion.LookRotation(inputDir, Vector3.up);
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRotation,
+                rotationSpeed * Time.deltaTime
+            );
+
+            horizontalInputAcceleration = inputDir.normalized * maxInputAcceleration;
+        }
+        else
+        {
+            horizontalInputAcceleration = Vector3.zero;
+        }
+
+        // Jump input
+        if (Keyboard.current.spaceKey.wasPressedThisFrame && IsOnGround())
+        {
+            verticalInputAcceleration = Vector3.up * jumpForce;
+        }
     }
 
-    bool isOnground()
+    bool IsOnGround()
     {
         return Physics.Raycast(transform.position, Vector3.down, groundRayDistance, groundLayer);
     }
 
-    private void ApplyCustomDamping()
+    void UpdatePhysics()
     {
-        // Custom damping applied strictly to X and Z, leaving Y (gravity/jumping) completely untouched
+        // Apply horizontal movement
+        rb.AddForce(horizontalInputAcceleration * 5.0f, ForceMode.Acceleration);
+
+        // Apply jump impulse and reset vertical input
+        if (verticalInputAcceleration != Vector3.zero)
+        {
+            rb.AddForce(verticalInputAcceleration * 60.0f, ForceMode.Impulse);
+            verticalInputAcceleration = Vector3.zero;
+        }
+
+        // Apply horizontal drag manually
         Vector3 vel = rb.linearVelocity;
         vel.x *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
         vel.z *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
-
         rb.linearVelocity = vel;
     }
 
-    void updatePhysics()
+    public void SetCameraDirection(Quaternion direction)
     {
-
-        // Apply input acceleration
-        rb.AddForce( this.horizontalInputAcceleration * 5.0f, ForceMode.Acceleration );
-        rb.AddForce( this.verticalInputAcceleration * 60.0f, ForceMode.Impulse );
-
-        // apply 'drag'
-        rb.linearDamping = 0.0f; // Disable unitys system, we use our own
-        this.ApplyCustomDamping();
+        this.cameraDirection = direction;
     }
 
-    // Unity physics
+    // Unity fucntions
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -137,16 +99,11 @@ public class CustomCharachterController : MonoBehaviour
 
     void Update()
     {
-        this.proccesInput();
+        ProcessInput();
     }
 
-    void LateUpdate()
+    void FixedUpdate()
     {
-        this.updatePhysics();
-    }
-
-    public void setCameraDirection(Quaternion direction)
-    {
-        this.cameraDirection = direction;
+        UpdatePhysics();
     }
 }

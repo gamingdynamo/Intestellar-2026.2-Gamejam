@@ -13,62 +13,67 @@ public class CameraController : MonoBehaviour
     private float pitch = 0.0f;
     private float yaw = 0.0f;
 
-    void Start()
+    void UpdatePlayerController()
     {
-        Vector3 angles = this.transform.eulerAngles;
-        pitch = angles.x;
-        yaw = angles.y;
+        if (playerTransform == null){ return; }
+
+        CustomCharachterController playerController = playerTransform.GetComponent<CustomCharachterController>();
+        if (playerController == null){return; }
+
+        playerController.SetCameraDirection(transform.rotation);
     }
 
-    void handleInput()
+    void HandleInput()
     {
         if (Mouse.current == null) return;
 
-        if ( Mouse.current.rightButton.isPressed)
+        if (Mouse.current.rightButton.isPressed)
         {
-            // Hide mouse
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
-            // Procces input
             Vector2 mouseDelta = Mouse.current.delta.ReadValue();
 
-            float deltaX = (mouseDelta.x / Screen.width) * sensitivityX * 100.0f;
-            float deltaY = (mouseDelta.y / Screen.height) * sensitivityY * 100.0f;
+            float deltaX = mouseDelta.x * sensitivityX * 0.1f;
+            float deltaY = mouseDelta.y * sensitivityY * 0.1f;
 
             yaw += deltaX;
             pitch -= deltaY;
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-            this.transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
+            transform.rotation = Quaternion.Euler(pitch, yaw, 0f);
         }
         else
         {
-            // Shopw mosue
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         
     }
 
-    void updateCameraPosition()
+    void SetCameraPosition()
     {
-        if (this.playerTransform == null) return;
-        this.transform.position = this.playerTransform.position - (this.transform.forward * distance); // Position camera relative to target rotation and distance
+        // Position camera in LateUpdate after player has moved in Update/FixedUpdate
+        if (playerTransform == null) return;
+        transform.position = playerTransform.position - (transform.forward * distance);
     }
 
-    void updatecontroller()
+    // unity functions
+    void Start()
     {
-        CustomCharachterController playerCharacterController = this.playerTransform.GetComponent<CustomCharachterController>();
-        if ( playerCharacterController == null ){ return; }
+        Vector3 angles = transform.eulerAngles;
+        pitch = angles.x;
+        yaw = angles.y;
+    }
 
-        playerCharacterController.setCameraDirection(this.transform.rotation);
+    void Update()
+    {
+        this.HandleInput();
+        this.UpdatePlayerController();
     }
 
     void LateUpdate()
     {
-        this.handleInput();
-        this.updateCameraPosition();
-        this.updatecontroller();
+        this.SetCameraPosition();
     }
 }

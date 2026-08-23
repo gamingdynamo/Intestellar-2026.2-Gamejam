@@ -385,11 +385,11 @@ Transform:
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2588186, y: -0, z: -0, w: 0.965926}
-  m_LocalPosition: {x: -0.046, y: 4.821, z: -6.771}
+  m_LocalPosition: {x: 0, y: 6, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1333921512}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
@@ -548,7 +548,7 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410087039}
   m_Enabled: 1
-  serializedVersion: 12
+  serializedVersion: 13
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 2
@@ -600,7 +600,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -788,7 +788,7 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 472007160}
   m_Enabled: 1
-  serializedVersion: 12
+  serializedVersion: 13
   m_Type: 2
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 10
@@ -840,7 +840,7 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ForceVisible: 0
-  m_ShadowRadius: 0
+  m_ShapeRadius: 0
   m_ShadowAngle: 0
   m_LightUnit: 1
   m_LuxAtDistance: 1
@@ -1650,7 +1650,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 330585546}
   - {fileID: 1023966853}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1693,8 +1692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6b238dbd664a5644b6fb287121fccb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CustomCharachterController
-  maxInputAcceleration: 1
-  horizontalDamping: 1
+  maxInputAcceleration: 5
+  horizontalDamping: 3
   jumpForce: 1
   rotationSpeed: 10
   groundRayDistance: 1.1
@@ -2429,3 +2428,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1333921512}
   - {fileID: 1955138434}
+  - {fileID: 330585546}
