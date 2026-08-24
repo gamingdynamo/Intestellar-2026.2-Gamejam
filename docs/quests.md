@@ -12,7 +12,7 @@ Purpose: player will get to know who to walk and interact with objects.
 
 Quest 2 (REAL):
 Summary: Player receives text message from neighbour-1 like: "Hey William, I just wanted to remind you that on Mondays you are taking my dog to the walk. Thanks!". Text message makes its clear, that William only does that on Mondays.
-Purpose: Make player go outside apartment, introduce neighbour. Setup for Quest4.
+Purpose: Make player go outside apartment, introduce neighbour. Setup for Quest5.
 
 Quest 3 (Fake):
 Summary: Player receives text message from neighbour-2 like: "Billy, sweetie, TV works great after you fixed this morning. You're truly a magician. Mrs Jones". Text message makes its clear, that William only does that on Mondays.
