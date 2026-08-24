@@ -2,36 +2,89 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class CustomCharachterController : MonoBehaviour
+public class FpsController : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float maxInputAcceleration = 15.0f;
     [SerializeField] private float horizontalDamping = 5.0f;
     [SerializeField] private float jumpForce = 5.0f;
-    [SerializeField] private float rotationSpeed = 10.0f;
 
     [Header("Ground Check")]
     [SerializeField] private float groundRayDistance = 1.1f;
     [SerializeField] private LayerMask groundLayer;
 
+    [Header("Camera Settings")]
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private float sensitivityX = 1.0f;
+    [SerializeField] private float sensitivityY = 1.0f;
+    [SerializeField] private float minPitch = -89.0f;
+    [SerializeField] private float maxPitch = +89.0f;
+
     private Vector3 horizontalInputAcceleration = Vector3.zero;
     private Vector3 verticalInputAcceleration = Vector3.zero;
-    private Quaternion cameraDirection = Quaternion.identity;
+    private Rigidbody rb;
 
-    private Rigidbody rb = null;
+    private float pitch = 0.0f;
+    private float yaw = 0.0f;
 
-    void ProcessInput()
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    void Start()
+    {
+        // Hide and lock mouse
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        // Initialize rotation variables
+        yaw = transform.eulerAngles.y;
+        if (cameraTransform != null)
+        {
+            pitch = cameraTransform.localEulerAngles.x;
+        }
+    }
+
+    void Update()
+    {
+        this.HandleCameraInput();
+        this.ProcessMovementInput();
+    }
+
+    void FixedUpdate()
+    {
+        this.UpdatePhysics();
+    }
+
+    void HandleCameraInput()
+    {
+        if (Mouse.current == null || cameraTransform == null){return;};
+
+        Vector2 mouseDelta = Mouse.current.delta.ReadValue();
+
+        float deltaX = mouseDelta.x * sensitivityX * 0.1f;
+        float deltaY = mouseDelta.y * sensitivityY * 0.1f;
+
+        yaw += deltaX;
+        pitch -= deltaY;
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+        
+        // Apply yaw (left/right) to the main player body
+        transform.rotation = Quaternion.Euler(0f, yaw, 0f);
+
+        // Apply pitch (up/down) locally to the camera
+        cameraTransform.localRotation = Quaternion.Euler(pitch, 0f, 0f);
+    }
+
+    void ProcessMovementInput()
     {
         if (Keyboard.current == null) return;
 
-        Vector3 camEuler = cameraDirection.eulerAngles;
-        Quaternion cameraYaw = Quaternion.Euler(0f, camEuler.y, 0f);
-
-        Vector3 camForward = cameraYaw * Vector3.forward;
-        Vector3 camRight = cameraYaw * Vector3.right;
+        Vector3 camForward = transform.forward;
+        Vector3 camRight = transform.right;
 
         Vector3 inputDir = Vector3.zero;
-
         if (Keyboard.current.wKey.isPressed) inputDir += camForward;
         if (Keyboard.current.sKey.isPressed) inputDir -= camForward;
         if (Keyboard.current.dKey.isPressed) inputDir += camRight;
@@ -40,15 +93,7 @@ public class CustomCharachterController : MonoBehaviour
         if (inputDir.sqrMagnitude != 0.0f)
         {
             inputDir.Normalize();
-
-            Quaternion targetRotation = Quaternion.LookRotation(inputDir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(
-                transform.rotation,
-                targetRotation,
-                rotationSpeed * Time.deltaTime
-            );
-
-            horizontalInputAcceleration = inputDir.normalized * maxInputAcceleration;
+            horizontalInputAcceleration = inputDir * maxInputAcceleration;
         }
         else
         {
@@ -84,26 +129,5 @@ public class CustomCharachterController : MonoBehaviour
         vel.x *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
         vel.z *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
         rb.linearVelocity = vel;
-    }
-
-    public void SetCameraDirection(Quaternion direction)
-    {
-        this.cameraDirection = direction;
-    }
-
-    // Unity fucntions
-    void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    void Update()
-    {
-        ProcessInput();
-    }
-
-    void FixedUpdate()
-    {
-        UpdatePhysics();
     }
 }
