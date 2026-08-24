@@ -238,8 +238,8 @@ GameObject:
   - component: {fileID: 93542173}
   - component: {fileID: 93542172}
   - component: {fileID: 93542171}
-  m_Layer: 0
-  m_Name: Cube
+  m_Layer: 7
+  m_Name: TestButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,7 +254,7 @@ Transform:
   m_GameObject: {fileID: 93542169}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.917, y: 1.49, z: -0.887}
+  m_LocalPosition: {x: -0.917, y: 1.49, z: -0.863}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -272,7 +272,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251da38625e2b774689b81baa462f95c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionElement
-  InteractionName: Test Button
+  interactionName: Test Button
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!65 &93542172
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -576,6 +579,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
+  - component: {fileID: 330585548}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -630,7 +634,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 63
+    m_Bits: 191
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -701,6 +705,22 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &330585548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f547cdd7243a992469b3d3ac452314c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Interactor
+  interactionText: {fileID: 463885823}
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1001 &399469668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1000,8 +1020,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -22, y: -78}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &463885823
 MonoBehaviour:
@@ -1023,7 +1043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: InteractionText
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3f2faa640260f45449cb1e4fa00b2b5d, type: 2}
   m_sharedMaterial: {fileID: -3000034738551970821, guid: 3f2faa640260f45449cb1e4fa00b2b5d, type: 2}
@@ -1058,7 +1078,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
@@ -1894,6 +1914,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 463885822}
+  - {fileID: 1504722990}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2204,9 +2225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0921a366303dc4e4eb10168fc4e676b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FpsController
-  maxInputAcceleration: 15
-  horizontalDamping: 5
-  jumpForce: 5
+  maxInputAcceleration: 4
+  horizontalDamping: 4
+  jumpForce: 1
   groundRayDistance: 1.1
   groundLayer:
     serializedVersion: 2
@@ -2509,6 +2530,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ea6e0e32503b6a644805ce6651014460, type: 3}
   m_PrefabInstance: {fileID: 1906557257}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1504722989
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1504722990}
+  - component: {fileID: 1504722992}
+  - component: {fileID: 1504722991}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1504722990
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504722989}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1269194049}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 50, y: 50}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1504722991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504722989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 970d2ce8973a53f49a882086ee28da50, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1504722992
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504722989}
+  m_CullTransparentMesh: 1
 --- !u!4 &1630293261 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c865250859291f540a4ed9437138fa0b, type: 3}
