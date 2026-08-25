@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "GAmeJam.slnx"
+    "dotnet.defaultSolution": "Intestellar-2026.2-Gamejam.slnx"
 }
