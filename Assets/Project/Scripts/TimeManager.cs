@@ -1,12 +1,14 @@
 using TMPro;
 using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine.Events;
 
 public class TimeManager : MonoBehaviour
 {
     [SerializeField] private float secondsPassed = 0;
     [SerializeField] private float timeMultiplier = 60;
     [SerializeField] private TMP_Text timeText = null;
+    [SerializeField] private UnityEvent wakeUpEvent = null;
 
     void Update()
     {
@@ -24,6 +26,7 @@ public class TimeManager : MonoBehaviour
         int days = getDay() + 1;
         int hours = (int)7;
         this.secondsPassed = ( ( (float)days * 24.0f * 60.0f * 60.0f ) + ( (float)hours * 60.0f * 60.0f ) ) / (float)timeMultiplier;
+        this.wakeUpEvent?.Invoke();
     }
 
     public int getDay()
