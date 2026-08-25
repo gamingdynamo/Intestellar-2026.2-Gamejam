@@ -17,4 +17,9 @@ public class InteractionElement : MonoBehaviour
     {
         return this.interactionName;
     }
+
+    public void SetInteractionName(string name)
+    {
+        this.interactionName = name;
+    }
 }
