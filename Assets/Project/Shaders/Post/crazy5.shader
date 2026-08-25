@@ -1,9 +1,9 @@
-Shader "Custom/PostProcess/FullScreenHLSL"
+Shader "Custom/PostProcess/crazy5ScreenPass"
 {
     Properties
     {
-        // URP automatically binds the screen color texture to _BlitTexture
         [HideInInspector] _BlitTexture("Source Texture", 2D) = "white" {}
+        _IntensityEffect("Effect Intensity", Range(0.0, 1.0)) = 1.0
     }
 
     SubShader
@@ -21,27 +21,32 @@ Shader "Custom/PostProcess/FullScreenHLSL"
 
         Pass
         {
-            Name "FullScreenPass"
+            Name "crazy5ScreenPass"
 
             HLSLPROGRAM
+
             #pragma vertex Vert
             #pragma fragment Frag
 
-            // Include URP full-screen utilities
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-            // Fragment shader running for every pixel on the screen
+            CBUFFER_START(UnityPerMaterial)
+                float _IntensityEffect;
+            CBUFFER_END
+
             half4 Frag(Varyings input) : SV_Target
             {
-                // Sample the screen texture at current pixel UV coordinates
-                float4 color = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord);
+                float4 originalColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, input.texcoord);
+                if ( _IntensityEffect == 0.0 ){ return originalColor; }
 
-                // Example effect: Invert colors
-                color.rgb = 1.0 - color.rgb;
+                float2 uv = input.texcoord;
+                uv.x += sin(uv.y * 50.0 + _Time.y * 10.0) * 0.02;
+                float4 outColor = SAMPLE_TEXTURE2D(_BlitTexture, sampler_LinearClamp, uv);
 
-                return color;
+                return lerp(originalColor, outColor, _IntensityEffect);
             }
+
             ENDHLSL
         }
     }
