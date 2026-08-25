@@ -21,9 +21,8 @@ public class Interactor : MonoBehaviour
         string name = interactionElement.GetInteractionName();
         interactionText.text = name;
 
-        if (Mouse.current == null){ return; }
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Keyboard.current == null ){ return; }
+        if (Keyboard.current.eKey.wasPressedThisFrame)
         {
             interactionElement.Interact();
         }
