@@ -4197,6 +4197,24 @@ MonoBehaviour:
     material: {fileID: 2100000, guid: b4b187aea7766dd4583086f9b44c94d0, type: 2}
   - featureName: crazy1
     material: {fileID: 2100000, guid: 968a468e275ab6845b456e1917a1ee23, type: 2}
+  - featureName: crazy2
+    material: {fileID: 2100000, guid: d4ad4d1b84672c544a10af228b4f7515, type: 2}
+  - featureName: crazy3
+    material: {fileID: 2100000, guid: dd34dff36cb704b45bb64e51d48de7bc, type: 2}
+  - featureName: crazy4
+    material: {fileID: 2100000, guid: 9d8932a675daa414f8b173837baf6053, type: 2}
+  - featureName: crazy5
+    material: {fileID: 2100000, guid: 2481164acdcbd234d86d8d70b8acf3d9, type: 2}
+  - featureName: crazy6
+    material: {fileID: 2100000, guid: 1527bb249a2e31943ba8f8a6835fe28c, type: 2}
+  - featureName: crazy7
+    material: {fileID: 2100000, guid: 7cfe51c89448dd045934c1a3aac4369d, type: 2}
+  - featureName: crazy8
+    material: {fileID: 2100000, guid: 10bb55a83a8855a48a4498732c07ac38, type: 2}
+  - featureName: crazy9
+    material: {fileID: 2100000, guid: 9c1bf2efd176e5c40b365123aedb270b, type: 2}
+  - featureName: crazy10
+    material: {fileID: 2100000, guid: 6f03280d129b608448b5ef7878bcd235, type: 2}
 --- !u!4 &1558968483
 Transform:
   m_ObjectHideFlags: 0
