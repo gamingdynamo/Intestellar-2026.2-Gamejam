@@ -6,7 +6,7 @@ public class MinigameController : MonoBehaviour
 {
     public static MinigameController Instance { get; private set; }
 
-    [SerializeField] private MonoBehaviour playerController;
+    private FpsController player;
     [SerializeField] private List<BaseMinigame> minigames;
 
     private Dictionary<MinigameType, IMinigame> minigameRegistry;
@@ -33,6 +33,11 @@ public class MinigameController : MonoBehaviour
         }
     }
 
+    public void Start()
+    {
+        player = FindAnyObjectByType<FpsController>();
+    }
+
     public void StartMinigame(MinigameType type, Action<bool> callback = null)
     {
         if (!minigameRegistry.TryGetValue(type, out var minigame))
@@ -42,7 +47,7 @@ public class MinigameController : MonoBehaviour
 
         activeMinigame = minigame;
 
-        if (playerController) playerController.enabled = false;
+        if (player) player.enabled = false;
         // I am not changing cursor yet. But we can add it here if needed.
         // Cursor.lockState = CursorLockMode.None;
         // Cursor.visible = true;
@@ -59,7 +64,7 @@ public class MinigameController : MonoBehaviour
         // Same as above about cursor state
         // Cursor.lockState = CursorLockMode.Locked;
         // Cursor.visible = false;
-        if (playerController) playerController.enabled = true;
+        if (player) player.enabled = true;
         activeMinigame = null;
     }
 }
