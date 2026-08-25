@@ -15,7 +15,7 @@ Summary: Player receives text message from neighbour-1 like: "Hey William, I jus
 Purpose: Make player go outside apartment, introduce neighbour. Setup for Quest5.
 
 Quest 3 (Fake):
-Summary: Player receives text message from neighbour-2 like: "Billy, sweetie, TV works great after you fixed this morning. You're truly a magician. Mrs Jones". Text message makes its clear, that William only does that on Mondays.
+Summary: Player receives text message from neighbour-2 like: "Billy, sweetie, TV works great after you fixed this morning. You're truly a magician. Mrs Jones".
 Purpose: introduce fake quests. introduce Mrs Jones
 
 Day 2 (Tuesday):
