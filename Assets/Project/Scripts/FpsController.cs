@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,18 +28,45 @@ public class FpsController : MonoBehaviour
     private float pitch = 0.0f;
     private float yaw = 0.0f;
 
+    private bool frozen;
+
+    private static FpsController sPlayer = null;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
     }
 
+    void setRefrence()
+    {
+        if ( FpsController.sPlayer == null)
+        {
+            FpsController.sPlayer = this;
+        }
+        else
+        {
+            Debug.LogError("Static player refrence was already set, only one player component should exsist!");
+        }
+    }
+
+    public static FpsController GetFpsControllerRefrence()
+    {
+        if ( FpsController.sPlayer != null)
+        {
+            return FpsController.sPlayer;
+        }
+        else
+        {
+            Debug.LogError("Static player refrence was not set, but was requested!");
+            return null;
+        }
+
+    }
+
     void Start()
     {
-        // Hide and lock mouse
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-
         // Initialize rotation variables
+        this.setRefrence();
         yaw = transform.eulerAngles.y;
         if (cameraTransform != null)
         {
@@ -46,10 +74,36 @@ public class FpsController : MonoBehaviour
         }
     }
 
+    void setCursorVisibilty(bool visible)
+    {
+        if ( !visible)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        
+    }
+
     void Update()
     {
-        this.HandleCameraInput();
-        this.ProcessMovementInput();
+        if ( !this.frozen)
+        {
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            this.setCursorVisibilty(false);
+            this.HandleCameraInput();
+            this.ProcessMovementInput();
+        }
+        else
+        {
+            this.setCursorVisibilty(true);
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+        
     }
 
     void FixedUpdate()
@@ -129,5 +183,10 @@ public class FpsController : MonoBehaviour
         vel.x *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
         vel.z *= Mathf.Clamp01(1f - horizontalDamping * Time.fixedDeltaTime);
         rb.linearVelocity = vel;
+    }
+
+    public void SetFreeze(bool doFreeze)
+    {
+        this.frozen = doFreeze;
     }
 }

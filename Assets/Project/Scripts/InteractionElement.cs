@@ -9,6 +9,7 @@ public class InteractionElement : MonoBehaviour
     public void Interact()
     {
         Debug.Log("Invoked: "+this.interactionName);
+        
         onInteraction?.Invoke();
     }
 

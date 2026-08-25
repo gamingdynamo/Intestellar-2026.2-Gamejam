@@ -21,8 +21,13 @@ public class Interactor : MonoBehaviour
         string name = interactionElement.GetInteractionName();
         interactionText.text = name;
 
-        if (Mouse.current == null || Mouse.current.leftButton.wasPressedThisFrame){ return; }
-        interactionElement.Interact();
+        if (Mouse.current == null){ return; }
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            interactionElement.Interact();
+        }
+        
     }
 
     void Update()
