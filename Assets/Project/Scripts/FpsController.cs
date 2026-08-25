@@ -9,6 +9,7 @@ public class FpsController : MonoBehaviour
     [SerializeField] private float maxInputAcceleration = 15.0f;
     [SerializeField] private float horizontalDamping = 5.0f;
     [SerializeField] private float jumpForce = 5.0f;
+    [SerializeField] private float sprintMultiplier = 1.5f;
 
     [Header("Ground Check")]
     [SerializeField] private float groundRayDistance = 1.1f;
@@ -169,7 +170,9 @@ public class FpsController : MonoBehaviour
     void UpdatePhysics()
     {
         // Apply horizontal movement
-        rb.AddForce(horizontalInputAcceleration * 5.0f, ForceMode.Acceleration);
+        float mult = 1.0f;
+        if (Keyboard.current != null && Keyboard.current.leftShiftKey.isPressed) {mult = this.sprintMultiplier; };
+        rb.AddForce(horizontalInputAcceleration * 5.0f * mult, ForceMode.Acceleration);
 
         // Apply jump impulse and reset vertical input
         if (verticalInputAcceleration != Vector3.zero)

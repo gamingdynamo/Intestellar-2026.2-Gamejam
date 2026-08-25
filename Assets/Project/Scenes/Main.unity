@@ -3630,6 +3630,7 @@ MonoBehaviour:
   maxInputAcceleration: 4
   horizontalDamping: 4
   jumpForce: 1
+  sprintMultiplier: 1.5
   groundRayDistance: 1.1
   groundLayer:
     serializedVersion: 2
