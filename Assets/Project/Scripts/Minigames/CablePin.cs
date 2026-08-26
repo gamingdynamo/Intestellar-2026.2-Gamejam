@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public enum WireColor { Red, Blue, Yellow, Green }
 
+[RequireComponent(typeof(Image))]
 public class CablePin : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
 {
     public WireColor wireColor;

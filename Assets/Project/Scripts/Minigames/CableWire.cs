@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-
 [RequireComponent(typeof(Image))]
+
+[RequireComponent(typeof(RectTransform))]
 public class CableWire : MonoBehaviour
 {
     private RectTransform rectTransform;
