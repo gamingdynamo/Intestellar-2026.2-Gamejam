@@ -35,7 +35,10 @@ public class MinigameController : MonoBehaviour
 
     public void Start()
     {
-        player = FindAnyObjectByType<FpsController>();
+        player = FpsController.GetFpsControllerRefrence();
+        Debug.Log("Player found - " + player != null);
+        // TODO - Remove later, this is just for demo scene
+        if (player) player.SetFreeze(true);
     }
 
     public void StartMinigame(MinigameType type, Action<bool> callback = null)
@@ -47,10 +50,11 @@ public class MinigameController : MonoBehaviour
 
         activeMinigame = minigame;
 
-        if (player) player.enabled = false;
-        // I am not changing cursor yet. But we can add it here if needed.
-        // Cursor.lockState = CursorLockMode.None;
-        // Cursor.visible = true;
+        if (player) player.SetFreeze(true);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        Debug.Log("Launching Minigame");
 
         activeMinigame.Launch((success) =>
         {
@@ -61,10 +65,9 @@ public class MinigameController : MonoBehaviour
 
     private void EndMinigame()
     {
-        // Same as above about cursor state
-        // Cursor.lockState = CursorLockMode.Locked;
-        // Cursor.visible = false;
-        if (player) player.enabled = true;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        if (player) player.SetFreeze(false);
         activeMinigame = null;
     }
 }
