@@ -715,7 +715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -1645,7 +1645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -151.60327, y: 168.03703}
+  m_AnchoredPosition: {x: 110, y: 168.03703}
   m_SizeDelta: {x: 335.9594, y: 466.1378}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &428906830
@@ -1678,7 +1678,7 @@ Animator:
   m_GameObject: {fileID: 428906827}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9367475ebf638ae49b78242a71bf06b6, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3711,7 +3711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afcd51c52571bfe4cb7624910877073d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhoneController
-  phoneCanvas: {fileID: 200905096}
+  phoneAnimator: {fileID: 428906832}
 --- !u!4 &1261012764
 Transform:
   m_ObjectHideFlags: 0
