@@ -41,7 +41,7 @@ public class MinigameController : MonoBehaviour
         if (player) player.SetFreeze(true);
     }
 
-    public void StartMinigame(MinigameType type, Action<bool> callback = null)
+    public void StartMinigame(MinigameType type, Action<bool> callback = null, object payload = null)
     {
         if (!minigameRegistry.TryGetValue(type, out var minigame))
         {
@@ -60,7 +60,7 @@ public class MinigameController : MonoBehaviour
         {
             EndMinigame();
             callback?.Invoke(success);
-        });
+        }, payload);
     }
 
     private void EndMinigame()

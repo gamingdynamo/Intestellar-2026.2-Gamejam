@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class DemoButton : MonoBehaviour
 {
+    [SerializeField] MinigameType minigame;
     public Button myButton;
 
     void Start()
@@ -14,10 +15,17 @@ public class DemoButton : MonoBehaviour
     void OnButtonClicked()
     {
         Debug.Log("Button Clicked ");
-
-        MinigameController.Instance.StartMinigame(MinigameType.RouteCables, (success) =>
+        if (minigame == MinigameType.ArrangeFuses)
         {
-            Debug.Log("Success callback - " + success);
-        });
+            MinigameController.Instance.StartMinigame(minigame, SuccessCallback, FuseGameMode.Connect);
+            return;
+        }
+
+        MinigameController.Instance.StartMinigame(minigame, SuccessCallback);
+    }
+
+    private void SuccessCallback(bool success)
+    {
+        Debug.Log("Success callback - " + success);
     }
 }

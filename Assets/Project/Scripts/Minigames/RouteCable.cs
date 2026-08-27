@@ -11,7 +11,7 @@ public class RouteCable : BaseMinigame
     public Transform WireContainer => wireContainer != null ? wireContainer : transform;
 
 
-    public override void Launch(Action<bool> onComplete)
+    public override void Launch(Action<bool> onComplete, object payload = null)
     {
 
         base.Launch(onComplete);

@@ -14,7 +14,7 @@ public abstract class BaseMinigame : MonoBehaviour, IMinigame
         onCompleteCallback = null;
     }
 
-    public virtual void Launch(Action<bool> onComplete)
+    public virtual void Launch(Action<bool> onComplete, object payload = null)
     {
         gameObject.SetActive(true);
         onCompleteCallback = onComplete;
