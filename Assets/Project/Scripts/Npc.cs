@@ -1,10 +1,50 @@
 using UnityEngine;
 using NaughtyAttributes;
+using System.Collections;
+using System;
+using TMPro;
 
 public class Npc : MonoBehaviour
 {
     [SerializeField] private string npcName = "unamed npc";
     [SerializeField] private Vector3 spawnlocation = Vector3.zero;
+    [SerializeField] private TMP_Text dialogText;
+
+    private Coroutine currentTypewriterCoroutine;
+
+    void SetDialogText(string text)
+    {
+        if (dialogText == null) { return; }
+        dialogText.text = text;
+    }
+
+    public void SayText(string text, float characterTiming, Action onComplete = null)
+    {
+        if (dialogText == null) return;
+
+        if (currentTypewriterCoroutine != null)
+        {
+            StopCoroutine(currentTypewriterCoroutine);
+        }
+
+        currentTypewriterCoroutine = StartCoroutine(TypewriterEffectRoutine(text, characterTiming, onComplete));
+    }
+
+    private IEnumerator TypewriterEffectRoutine(string textToType, float delay, Action onComplete)
+    {
+        dialogText.text = "";
+
+        foreach (char c in textToType)
+        {
+            dialogText.text += c;
+            yield return new WaitForSeconds(delay);
+        }
+
+        currentTypewriterCoroutine = null;
+
+        // Trigger the second action once typing completes
+        onComplete?.Invoke();
+    }
 
     void Awake()
     {
@@ -85,5 +125,14 @@ public class Npc : MonoBehaviour
     void SetSpawnAtLocation()
     {
         this.spawnlocation = this.gameObject.transform.position;
+    }
+
+    [Button("Test Dialogue")]
+    public void TestDialogue()
+    {
+        
+        SayText("Hello traveler!", 0.05f, () => {
+            SayText("Welcome to our village!", 0.05f);
+        });
     }
 }
