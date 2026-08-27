@@ -45,7 +45,7 @@ Summary: Apartment cleanup.
 Purpose: During cleanup player has to interact with a photo of his deceased mother, which is setup for Quest 11.
 
 Quest 9 (FAKE):
-Summary: Player receives a text from building keeper that William needs go to the basement and turn off the power for a 10 seconds.
+Summary: Player receives a text from building keeper that William needs go to the fuse box and turn off the power for a 10 seconds.
 Purpose: Mess up with player. Minigame idea: remove fuses in right order or find right cable in mess of tangled toghether wires.
 
 Day 4 (Thursday):
