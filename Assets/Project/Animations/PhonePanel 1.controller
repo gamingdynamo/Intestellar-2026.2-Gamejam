@@ -33,7 +33,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Phoneclose
-  m_Speed: 0.01
+  m_Speed: 0.09
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8719250850154929485}
@@ -171,7 +171,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Phoneopen
-  m_Speed: 0.2
+  m_Speed: 0.09
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -880145116135597965}

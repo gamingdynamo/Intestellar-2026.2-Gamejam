@@ -404,6 +404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Npc
   npcName: unamed npc
   spawnlocation: {x: 4.19657, y: 1, z: -2.61797}
+  dialogText: {fileID: 0}
 --- !u!23 &123399064
 MeshRenderer:
   m_ObjectHideFlags: 0
